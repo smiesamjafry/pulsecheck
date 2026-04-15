@@ -1,8 +1,9 @@
 <%- include('../partials/header') %>
 
 <article style="text-align: center; padding: 3rem 1rem;">
-  <h1>Thank you!</h1>
-  <p>Your feedback for <strong><%= event.title %></strong> has been recorded.</p>
+  <h1><%= isEdit ? 'Response Updated!' : 'Thank you!' %></h1>
+  <p>Your feedback for <strong><%= event.title %></strong> has been <%= isEdit ? 'updated' : 'recorded' %>.</p>
+  <p><a href="/e/<%= event.public_slug %>">Edit your response</a></p>
 </article>
 
 <%- include('../partials/footer') %>

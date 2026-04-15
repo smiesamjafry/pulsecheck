@@ -8,29 +8,33 @@
     <% } %>
   </hgroup>
 
+  <% if (isEdit) { %>
+    <p><mark>You have already submitted a response. You can update it below.</mark></p>
+  <% } %>
+
   <form method="POST" action="/e/<%= event.public_slug %>">
     <% questions.forEach(function(q) { %>
       <fieldset>
         <label><strong><%= q.text %></strong></label>
         <div class="star-rating">
-          <input type="radio" id="q<%= q.id %>_5" name="rating_<%= q.id %>" value="5" required>
+          <input type="radio" id="q<%= q.id %>_5" name="rating_<%= q.id %>" value="5" required <%= existingRatings[q.id] === 5 ? 'checked' : '' %>>
           <label for="q<%= q.id %>_5" title="5 stars">&#9733;</label>
-          <input type="radio" id="q<%= q.id %>_4" name="rating_<%= q.id %>" value="4">
+          <input type="radio" id="q<%= q.id %>_4" name="rating_<%= q.id %>" value="4" <%= existingRatings[q.id] === 4 ? 'checked' : '' %>>
           <label for="q<%= q.id %>_4" title="4 stars">&#9733;</label>
-          <input type="radio" id="q<%= q.id %>_3" name="rating_<%= q.id %>" value="3">
+          <input type="radio" id="q<%= q.id %>_3" name="rating_<%= q.id %>" value="3" <%= existingRatings[q.id] === 3 ? 'checked' : '' %>>
           <label for="q<%= q.id %>_3" title="3 stars">&#9733;</label>
-          <input type="radio" id="q<%= q.id %>_2" name="rating_<%= q.id %>" value="2">
+          <input type="radio" id="q<%= q.id %>_2" name="rating_<%= q.id %>" value="2" <%= existingRatings[q.id] === 2 ? 'checked' : '' %>>
           <label for="q<%= q.id %>_2" title="2 stars">&#9733;</label>
-          <input type="radio" id="q<%= q.id %>_1" name="rating_<%= q.id %>" value="1">
+          <input type="radio" id="q<%= q.id %>_1" name="rating_<%= q.id %>" value="1" <%= existingRatings[q.id] === 1 ? 'checked' : '' %>>
           <label for="q<%= q.id %>_1" title="1 star">&#9733;</label>
         </div>
       </fieldset>
     <% }) %>
 
     <label for="feedback">Feedback <small>(optional)</small></label>
-    <textarea id="feedback" name="feedback" rows="4" placeholder="Any additional comments..."></textarea>
+    <textarea id="feedback" name="feedback" rows="4" placeholder="Any additional comments..."><%= existingFeedback %></textarea>
 
-    <button type="submit">Submit Rating</button>
+    <button type="submit"><%= isEdit ? 'Update Rating' : 'Submit Rating' %></button>
   </form>
 </article>
 

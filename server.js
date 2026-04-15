@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const publicRoutes = require('./routes/public');
 const adminRoutes = require('./routes/admin');
 
@@ -8,6 +9,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('trust proxy', 1);
 
