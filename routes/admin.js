@@ -4,17 +4,22 @@ const router = express.Router();
 const pool = require('../db/pool');
 
 async function requireAdmin(req, res, next) {
-  const token = req.query.token;
-  if (!token) return res.status(403).send('Access denied');
+  try {
+    const token = req.query.token;
+    if (!token) return res.status(403).send('Access denied');
 
-  const result = await pool.query(
-    'SELECT * FROM events WHERE id = $1 AND admin_token = $2',
-    [req.params.id, token]
-  );
-  if (result.rows.length === 0) return res.status(403).send('Access denied');
+    const result = await pool.query(
+      'SELECT * FROM events WHERE id = $1 AND admin_token = $2',
+      [req.params.id, token]
+    );
+    if (result.rows.length === 0) return res.status(403).send('Access denied');
 
-  req.event = result.rows[0];
-  next();
+    req.event = result.rows[0];
+    next();
+  } catch (err) {
+    console.error('requireAdmin error:', err);
+    res.status(500).send('Server error');
+  }
 }
 
 router.get('/new', (req, res) => {
